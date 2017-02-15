@@ -1,9 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uusafe.plugin_frame_host">
 
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
-
+    <application>
+        <activity
+            android:name="com.uusafe.plugin_frame_host.stub.a.ActivityN1ST0"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"></activity>
     </application>
-
 </manifest>

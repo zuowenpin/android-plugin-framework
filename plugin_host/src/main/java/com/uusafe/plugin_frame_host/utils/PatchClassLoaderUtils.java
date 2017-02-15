@@ -3,6 +3,7 @@ package com.uusafe.plugin_frame_host.utils;
 import android.app.Application;
 import android.util.Log;
 
+import com.uusafe.plugin_frame_host.LocalClassLoader;
 import com.uusafe.plugin_frame_host.PluginManager;
 
 /**
@@ -12,7 +13,7 @@ import com.uusafe.plugin_frame_host.PluginManager;
 public class PatchClassLoaderUtils {
     private static final String TAG = "PatchClassLoaderUtils";
 
-    public static boolean patchAppContextPackageInfoClassLoader(Application app, PluginManager pluginManager) {
+    public static boolean patchAppContextPackageInfoClassLoader(Application app, PluginManager pm) {
         try {
             Class<?> c = Class.forName("android.content.ContentWrapper");
             Object oBase = ReflectUtils.getField(c, app, "mBase");
@@ -44,7 +45,8 @@ public class PatchClassLoaderUtils {
             }
 
             ClassLoader oClassLoader = (ClassLoader) ReflectUtils.getField(c, oPackageInfo, "mClassLoader");
-
+            ClassLoader cl = new LocalClassLoader(oClassLoader.getParent(), oClassLoader, pm);
+            ReflectUtils.setField(c, oPackageInfo, "mClassLoader", cl);
         } catch (Exception e) {
             e.printStackTrace();
         }

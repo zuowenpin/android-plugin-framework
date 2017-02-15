@@ -21,7 +21,7 @@ import java.util.Set;
 public class PluginManager extends IPluginManager {
     private final HashSet<String> mContainerActivities = new HashSet<>();
     private final PluginProcessPer mClientImpl = new PluginProcessPer(this);
-    public static final String stubActivity = "com.uusafe.loader.a.ActivityN1ST0";
+    public static final String stubActivity = "com.uusafe.plugin_frame_host.stub.a.ActivityN1ST0";
     private final HashMap<String, Plugin> mPlugins = new HashMap<>();
     private final Context mContext;
 

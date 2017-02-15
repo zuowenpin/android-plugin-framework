@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  * Created by ${zuowp291} on 2017/2/10.
  */
 
-public class LoadClassLoader extends ClassLoader {
+public class LocalClassLoader extends ClassLoader {
     private static final String TAG = "LoadClassLoader";
     private final ClassLoader mBase;
     private Method findClassMethod;
@@ -18,7 +18,7 @@ public class LoadClassLoader extends ClassLoader {
     private Method findLibraryMethod;
     private final PluginManager mPluginManager;
 
-    public LoadClassLoader(ClassLoader parent, ClassLoader base, PluginManager pm) {
+    public LocalClassLoader(ClassLoader parent, ClassLoader base, PluginManager pm) {
         super(parent);
         mBase = base;
         mPluginManager = pm;

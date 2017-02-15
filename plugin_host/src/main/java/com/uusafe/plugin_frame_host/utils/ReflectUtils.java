@@ -21,6 +21,18 @@ public class ReflectUtils {
         return o;
     }
 
+    public static final void setField(Class<?> c, Object object, String fName, Object value) throws NoSuchFieldException, IllegalAccessException {
+        Field f = c.getDeclaredField(fName);
+        boolean acc = f.isAccessible();
+        if (!acc) {
+            f.setAccessible(true);
+        }
+        f.set(object, value);
+        if (!acc) {
+            f.setAccessible(acc);
+        }
+    }
+
 
     public static Object invokeStaticMethod(String clzName,
                                             String methodName,

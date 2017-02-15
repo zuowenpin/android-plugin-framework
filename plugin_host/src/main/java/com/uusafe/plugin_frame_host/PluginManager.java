@@ -27,12 +27,13 @@ public class PluginManager extends IPluginManager {
 
     public PluginManager(Context ctx) {
         mContext = ctx;
+        initPlugins();
     }
 
     public void initPlugins() {
-        Plugin mockPlugin = new Plugin("mock", this);
+        Plugin mockPlugin = new Plugin("plugina", this);
         mockPlugin.attach(mContext, PluginManager.class.getClassLoader().getParent());
-        mPlugins.put("mock", mockPlugin);
+        mPlugins.put("plugina", mockPlugin);
     }
 
     public void startPluginActivity(String pluginName, String activity) {

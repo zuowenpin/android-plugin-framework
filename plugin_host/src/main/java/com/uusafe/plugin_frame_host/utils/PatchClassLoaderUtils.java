@@ -15,7 +15,7 @@ public class PatchClassLoaderUtils {
 
     public static boolean patchAppContextPackageInfoClassLoader(Application app, PluginManager pm) {
         try {
-            Class<?> c = Class.forName("android.content.ContentWrapper");
+            Class<?> c = Class.forName("android.content.ContextWrapper");
             Object oBase = ReflectUtils.getField(c, app, "mBase");
             c = oBase.getClass();
             Object oPackageInfo = null;

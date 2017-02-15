@@ -2,12 +2,16 @@ package com.uusafe.plugin_frame_host;
 
 import com.uusafe.plugin_frame_base.IPluginManager;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.Enumeration;
 
 /**
  * Created by ${zuowp291} on 2017/2/10.
  */
 
+@SuppressWarnings("unchecked")
 public class LocalClassLoader extends ClassLoader {
     private static final String TAG = "LoadClassLoader";
     private final ClassLoader mBase;
@@ -31,7 +35,7 @@ public class LocalClassLoader extends ClassLoader {
             findResourceMethod = c.getDeclaredMethod("findResource", String.class);
             findResourceMethod.setAccessible(true);
 
-            findResourcesMethod = c.getDeclaredMethod("findResource", String.class);
+            findResourcesMethod = c.getDeclaredMethod("findResources", String.class);
             findResourcesMethod.setAccessible(true);
 
             findLibraryMethod = c.getDeclaredMethod("findLibraryMethod", String.class);
@@ -45,7 +49,54 @@ public class LocalClassLoader extends ClassLoader {
     }
 
     @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        return super.findClass(name);
+    protected Class<?> findClass(String className) throws ClassNotFoundException {
+        Class<?> c = mPluginManager.handleFindClass(findClassMethod, className);
+        if (c != null) {
+            return c;
+        }
+        try {
+            c = (Class<?>) findClassMethod.invoke(mBase, className);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        if (c != null) {
+            return c;
+        }
+        return super.findClass(className);
+    }
+
+    @Override
+    protected Enumeration<URL> findResources(String resName) throws IOException {
+        try {
+            return (Enumeration<URL>) findResourcesMethod.invoke(mBase, resName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return super.findResources(resName);
+    }
+
+    @Override
+    protected String findLibrary(String libname) {
+        try {
+            return (String) findLibraryMethod.invoke(mBase, libname);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return super.findLibrary(libname);
+    }
+
+    @Override
+    protected Package getPackage(String name) {
+        try {
+            return (Package) getPackageMethod.invoke(mBase, name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return super.getPackage(name);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "[mBase=" + mBase.toString() + "]";
     }
 }

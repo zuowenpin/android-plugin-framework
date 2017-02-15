@@ -28,10 +28,11 @@ public class PluginFramework {
         }
         mInitialized = true;
         try {
-            final Class<?> factoryClass = cl.loadClass("com.example.mock.main.i.Factory2");
+            final Class<?> factoryClass = cl.loadClass("com.uusafe.plugin_frame_host.Factory2");
             init2Locked(factoryClass);
             mHostInitialized = true;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return mHostInitialized;
     }
